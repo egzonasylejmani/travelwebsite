@@ -1,0 +1,126 @@
+{% extends "layouts/app.html" %}
+
+{% block title %}
+Trip
+{% endblock %}
+
+{% block content %}
+<header>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">
+        EXPLORE YOUR DREAM DESTINATIONS!
+      </h1>
+      <p class="lead font-italic">
+        "Discover, Experience, Enjoy!"
+      </p>
+    </div>
+  </div>
+</header>
+
+
+{% if trips %}
+<!-- Search Form -->
+<section class="py-3">
+  <div class="container">
+    <!-- Search Form -->
+    <form method="GET" action="{% url 'index' %}">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search trips..." name="q" {% if query %} value="{{ query }}" {% endif %}>
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row mb-5 h-100">
+      {% load static %}
+      {% if trips %}
+        {% for trip in trips %}
+        <div class="col-3 mb-2">
+          <div class="card h-100">
+            <img src="{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'no_image.jpg' %}{% endif %}"
+              class="card-img-top h-100 w-100" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ trip.name }}</h5>
+              <p class="card-text">{{ trip.description }}</p>
+              <p class="card-text">Price: {{ trip.price }} EUR</p>
+              <p class="card-text">Duration: {{ trip.duration_days }} days</p>
+              <a href="{% url 'view-trip' trip.id %}" class="btn btn-sm btn-outline-secondary">
+                <i class="fa-solid fa-circle-info"></i> more
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+      <!-- Pagination Links -->
+      <div class="bg-light mt-3">
+        <span>
+          {% if trips.has_previous %}
+          <a href="?page={{ trips.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
+          {% endif %}
+          <span class="mx-3">
+            Page <strong>{{ trips.number }}</strong> of <strong>{{ trips.paginator.num_pages }}</strong>.
+          </span>
+          {% if trips.has_next %}
+          <a href="?page={{ trips.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
+          {% endif %}
+        </span>
+      </div>
+      {% else %}
+      <p>No trips found.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<div class="accordion container" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+        aria-expanded="true" aria-controls="collapseOne">
+        Explore Destinations
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+      data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>Discover amazing places around the world.</strong> Whether you're looking for serene beaches or bustling cities, we've curated the best destinations for your next adventure.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+        aria-expanded="false" aria-controls="collapseTwo">
+        Plan Your Trip
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+      data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>Get expert tips and advice for your travel plans.</strong> From itinerary suggestions to packing essentials, we help you prepare for a smooth and memorable journey.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+        aria-expanded="false" aria-controls="collapseThree">
+        Travel Inspiration
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+      data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>Find inspiration for your next travel experience.</strong> Dive into stories, photos, and tips from fellow travelers that will ignite your wanderlust.
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

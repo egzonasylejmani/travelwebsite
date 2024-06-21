@@ -1,0 +1,103 @@
+<!-- HTML -->
+{% extends "layouts/app.html" %}
+
+{% load static %}
+
+{% block title %}
+  {{ trip.name }}
+{% endblock %}
+
+{% block content %}
+  {% if trip %}
+  <section class="view py-4">
+    <article class="cards">
+      <div class="left-card">
+        <img
+          class="poster-img1"
+          src="{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'no_image.jpg' %}{% endif %}"
+          alt="{{ trip.name }}"
+        />
+        <img
+          class="poster-img2"
+          src="{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'no_image.jpg' %}{% endif %}"
+          alt="{{ trip.name }}"
+        />
+      </div>
+      <div class="right-card">
+        <h1 class="main-title">{{ trip.name }}</h1>
+        <p class="summary">
+          {{ trip.description }}
+        </p>
+        <p class="summary">Location: {{ trip.location }}</p>
+        <p class="summary">Duration: {{ trip.duration_days }} days</p>
+        <div class="price">
+          <p class="current-price">{{ trip.price }}</p>
+        </div>
+        <a href="{% url 'add_to_cart' trip.id %}" class="btn btn-sm btn-primary">Add to Cart</a>
+      </div>
+    </article>
+  </section>
+
+  {% endif %}
+{% endblock %}
+
+<!-- CSS -->
+<style>
+  /* Add some basic styling to make it look nice */
+  section {
+    background-color: #f7f7f7;
+    padding: 20px;
+  }
+
+ .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+ .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+ .col-5 {
+    width: 40%;
+  }
+
+ .col-6 {
+    width: 50%;
+  }
+
+ .offset-1 {
+    margin-left: 8.33%;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  h5 {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 20px;
+  }
+
+ .btn {
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+ .btn:hover {
+    background-color: #23527c;
+  }
+</style>

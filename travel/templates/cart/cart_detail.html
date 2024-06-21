@@ -1,0 +1,46 @@
+{% extends "layouts/app.html" %}
+{% load mathfilters %}
+
+{% block title %}
+    Cart
+{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            <h3 class="mb-5">Cart ({{ total_items }})</h3>
+            {% if total_items > 0 %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.trip.name }}</td>
+                            <td>{{ item.trip.price|floatformat:2 }} EUR</td>
+                            <td>
+                                <a href="{% url 'item_decrement' item.trip.id %}" class="btn btn-sm btn-outline-secondary">-</a>
+                                {{ item.quantity }}
+                                <a href="{% url 'item_increment' item.trip.id %}" class="btn btn-sm btn-outline-secondary">+</a>
+                            </td>
+                            <td>{{ item.trip.price|mul:item.quantity|floatformat:2 }} EUR</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    Cart is empty
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

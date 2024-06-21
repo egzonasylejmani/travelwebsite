@@ -1,0 +1,38 @@
+{% extends "layouts/app.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            {% if bookings %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Number of Trips</th>
+                            <th>Total Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td>{{ booking.id }}</td>
+                            <td>{{ booking.nr_trips }}</td>
+                            <td>{{ booking.total|floatformat:2 }} EUR</td>
+                            <td>{{ booking.date|date:"F d, Y H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    No bookings found.
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

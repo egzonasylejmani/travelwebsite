@@ -1,0 +1,123 @@
+{% extends "layouts/app.html" %}
+{% load static %}
+
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<!-- Banner Section -->
+<header>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">
+          DREAM BIG AND WORK FOR IT !
+        </h1>
+        <p class="lead font-italic">
+          " Learn Apply Be Patient Increase"
+        </p>
+      </div>
+    </div>
+  </header>
+
+<!-- Grid of Trip Images Section -->
+{% if trips %}
+   <section class="py-5">
+       <div class="container">
+           <div class="row mb-5 h-100">
+               {% load static %}
+               {% for trip in trips %}
+               <div class="col-3  mb-2 ">
+                   <div class="card h-100">
+                    <img src="{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'no_image.jpg' %}{% endif %}" class="card-img-top h-100 w-100" alt="...">                       <div class="card-body">
+                           <h5 class="card-title">{{ trip.name }}</h5>
+                           <p class="card-text">{{ trip.description }}</p>
+                           <p class="card-text">Price: {{ trip.price }} EUR</p>
+                           <p class="card-text">Duration: {{ trip.duration_days }} days</p>
+                           <a href="{% url 'view-trip' trip.id %}" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-circle-info"></i> more</a>
+
+                       </div>
+                   </div>
+               </div>
+               {% endfor %}
+               <div class="bg-light mt-3">
+                   <span>
+                     {% if trips.has_previous %}
+                       <a href="?page={{ trips.previous_page_number }}">Previous</a>
+                     {% endif %}
+                     <span class="mx-3">
+                       Page <strong>{{ trip.number }}</strong> of <strong>{{ trips.paginator.num_pages }}</strong>.
+                     </span>
+                     {% if trips.has_next %}
+                       <a href="?page={{ trips.next_page_number }}">Next</a>
+                     {% endif %}
+                   </span>
+               </div>
+           </div>
+       </div>
+   </section>
+   {% endif %}
+<div class="accordion container" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Accordion Item #1
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse
+                plugin adds the appropriate classes that we use to style each element. These classes control the overall
+                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
+                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
+                within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Accordion Item #2
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse
+                plugin adds the appropriate classes that we use to style each element. These classes control the overall
+                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
+                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
+                within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Accordion Item #3
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse
+                plugin adds the appropriate classes that we use to style each element. These classes control the overall
+                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
+                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
+                within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .trip-image {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
